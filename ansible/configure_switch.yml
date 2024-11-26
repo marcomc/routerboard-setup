@@ -1,0 +1,8 @@
+---
+- name: Configure MikroTik RouterBoard as switch
+  hosts: switches
+  gather_facts: false
+  vars:
+    ansible_password: "{{ lookup('env', 'ROUTERBOARD_ADMIN_PASSWORD') }}"
+  roles:
+    - routerboard

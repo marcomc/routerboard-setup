@@ -1,0 +1,12 @@
+---
+- name: Include pre-checks
+  ansible.builtin.import_tasks: pre_checks.yml
+  tags: pre_checks
+
+- name: Include network configuration
+  ansible.builtin.import_tasks: network.yml
+  tags: network
+
+- name: Include services configuration
+  ansible.builtin.import_tasks: services.yml
+  tags: services

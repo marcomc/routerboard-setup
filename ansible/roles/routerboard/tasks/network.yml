@@ -1,0 +1,118 @@
+---
+- name: Set system identity
+  community.routeros.command:
+    commands:
+      - /system identity set name="{{ routerboard_hostname }}"
+  register: identity_result
+
+- name: Debug system identity result
+  ansible.builtin.debug:
+    var: identity_result
+
+- name: Configure bridge
+  community.routeros.command:
+    commands:
+      - /interface bridge add name=bridgeLocal
+  register: bridge_result
+
+- name: Debug bridge configuration result
+  ansible.builtin.debug:
+    var: bridge_result
+
+- name: Add all ethernet ports to bridge
+  community.routeros.command:
+    commands:
+      - /interface bridge port add bridge=bridgeLocal interface=ether{{ item }}
+  loop:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  register: bridge_ports_result
+
+- name: Debug bridge ports addition result
+  ansible.builtin.debug:
+    var: bridge_ports_result
+
+- name: Assign default static IP to bridge
+  community.routeros.command:
+    commands:
+      - /ip address add address={{ routerboard_ip }}/{{ routerboard_netmask }} interface=bridgeLocal
+  register: ip_assignment_result
+
+- name: Debug IP assignment result
+  ansible.builtin.debug:
+    var: ip_assignment_result
+
+- name: Enable DHCP client on bridge
+  community.routeros.command:
+    commands:
+      - /ip dhcp-client add interface=bridgeLocal disabled=no
+  register: dhcp_client_result
+
+- name: Debug DHCP client enablement result
+  ansible.builtin.debug:
+    var: dhcp_client_result
+
+
+- name: Upload public SSH key to router
+  ansible.builtin.copy:
+    src: "{{ routerboard_ssh_public_key_file }}"
+    dest: "/home/admin/id_rsa.pub"
+  register: ssh_key_upload_result
+
+- name: Debug SSH key upload result
+  ansible.builtin.debug:
+    var: ssh_key_upload_result
+
+- name: Import public SSH key for admin user
+  community.routeros.command:
+    commands:
+      - /user ssh-keys import user=admin public-key-file=/home/admin/id_rsa.pub
+  register: ssh_key_import_result
+
+- name: Debug SSH key import result
+  ansible.builtin.debug:
+    var: ssh_key_import_result
+
+# - name: Check if admin user password is already set
+#   community.routeros.command:
+#     commands:
+#       - /user print detail where name=admin
+#   register: admin_user_info
+
+# - name: Debug admin user info
+#   ansible.builtin.debug:
+#     var: admin_user_info
+
+- name: Always allow password login
+  community.routeros.command:
+    commands:
+      - /ip ssh set always-allow-password-login=yes
+  register: allow_password_login_result
+
+- name: Debug always allow password login result
+  ansible.builtin.debug:
+    var: allow_password_login_result
+
+- name: Set admin user password
+  # when: "'password' not in admin_user_info.stdout"
+  community.routeros.command:
+    commands:
+      - /user set admin password={{ routerboard_admin_password }}
+  register: admin_password_result
+
+- name: Debug admin password set result
+  ansible.builtin.debug:
+    var: admin_password_result
+
+- name: Save configuration
+  community.routeros.command:
+    commands:
+      - /system script run save_config
+  register: save_config_result
+
+- name: Debug save configuration result
+  ansible.builtin.debug:
+    var: save_config_result

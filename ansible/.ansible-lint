@@ -1,0 +1,8 @@
+---
+exclude_paths:
+  - /home/ansible/.ansible/roles
+warn_list:
+  - yaml
+  - var-naming  # All variables should be named using only lowercase and underscores
+# skip_list:
+#   - experimental

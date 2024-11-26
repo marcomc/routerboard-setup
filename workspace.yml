@@ -1,0 +1,73 @@
+---
+workspace('routerboard'):
+  description: Workspace Environment for RouterBoard
+
+command('enable %'):
+  env:
+    PARAMETER: = input.argument('%')
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    passthru docker compose up -d ${PARAMETER}
+    ws welcome
+
+
+command('rebuild %'):
+  env:
+    PARAMETER: = input.argument('%')
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    ws enable --build --force-recreate ${PARAMETER}
+
+command('disable'):
+  env:
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    run docker compose stop
+
+command('destroy'):
+  env:
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    run docker compose down --rmi "local" --volumes --remove-orphans --timeout 120
+
+command('console'):
+  env:
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker compose exec -u ansible console bash
+
+command('ansible-playbook <playbook> <inventory>'):
+  env:
+    NAMESPACE: = @('namespace')
+    PLAYBOOK: = input.argument('playbook')
+    INVENTORY: = input.argument('inventory')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker compose exec -u ansible console ansible-playbook ${PLAYBOOK} -i ${INVENTORY}
+
+command('ansible-galaxy install %'):
+  env:
+    NAMESPACE: = @('namespace')
+    PARAMETER: = input.argument('%')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker compose exec -u ansible console ansible-galaxy install -r ansible/requirements.ansible.yml ${PARAMETER}
+
+command('ansible-lint'):
+  env:
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker compose exec -u ansible console ansible-lint ansible/
+
+command('welcome'):
+  env:
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    echo "Welcome to RouterBoard!"

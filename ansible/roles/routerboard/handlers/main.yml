@@ -1,0 +1,10 @@
+---
+- name: Reboot RouterBoard to apply changes
+  community.routeros.command:
+    commands:
+      - /system reboot
+  register: reboot_result
+
+- name: Debug reboot result
+  ansible.builtin.debug:
+    var: reboot_result

@@ -1,0 +1,5 @@
+---
+- name: Disable unused services
+  community.routeros.command:
+    commands:
+      - /ip service disable telnet,ftp,www,api,api-ssl

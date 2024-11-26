@@ -1,0 +1,24 @@
+name: routerboard
+services:
+  console:
+    user: root
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - |
+        chown -R ansible:ansible /run/host-services/ssh-auth.sock || true &&
+        sleep infinity
+    working_dir: /app
+    environment:
+      ANSIBLE_CONFIG: /app/ansible/ansible.cfg
+      ANSIBLE_ROLES_PATH: /home/ansible/.ansible/roles
+      SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
+      ROUTERBOARD_ADMIN_PASSWORD: ~
+    volumes:
+      - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock
+      - ~/.ssh/config:/home/ansible/.ssh/config:ro
+      - ~/.ssh/id_rsa.pub:/home/ansible/.ssh/id_rsa.pub
+      - .:/app
