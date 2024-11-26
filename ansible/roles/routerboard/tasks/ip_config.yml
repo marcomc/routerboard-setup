@@ -1,0 +1,20 @@
+---
+- name: Assign default static IP to bridge
+  community.routeros.command:
+    commands:
+      - /ip address add address={{ routerboard_ip }}/{{ routerboard_netmask }} interface={{ routerboard_bridge_interface_name }}
+  register: ip_assignment_result
+
+- name: Debug IP assignment result
+  ansible.builtin.debug:
+    var: ip_assignment_result
+
+- name: Enable DHCP client on bridge
+  community.routeros.command:
+    commands:
+      - /ip dhcp-client add interface={{ routerboard_bridge_interface_name }} disabled=no
+  register: dhcp_client_result
+
+- name: Debug DHCP client enablement result
+  ansible.builtin.debug:
+    var: dhcp_client_result

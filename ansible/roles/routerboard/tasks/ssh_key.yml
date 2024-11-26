@@ -1,0 +1,22 @@
+---
+- name: Upload public SSH key to router
+  connection: local
+  ansible.netcommon.net_put:
+    src: "{{ routerboard_ssh_public_key_file }}"
+    dest: "/id_rsa.pub"
+    protocol: sftp
+  register: ssh_key_upload_result
+
+- name: Debug SSH key upload result
+  ansible.builtin.debug:
+    var: ssh_key_upload_result
+
+- name: Import public SSH key for admin user
+  community.routeros.command:
+    commands:
+      - /user ssh-keys import user=admin public-key-file=/id_rsa.pub
+  register: ssh_key_import_result
+
+- name: Debug SSH key import result
+  ansible.builtin.debug:
+    var: ssh_key_import_result

@@ -1,0 +1,31 @@
+---
+- name: Always allow password login
+  community.routeros.command:
+    commands:
+      - /ip ssh set always-allow-password-login=yes
+  register: allow_password_login_result
+
+- name: Debug always allow password login result
+  ansible.builtin.debug:
+    var: allow_password_login_result
+
+- name: Set admin user password
+  # when: "'password' not in admin_user_info.stdout"
+  community.routeros.command:
+    commands:
+      - /user set admin password={{ routerboard_admin_password }}
+  register: admin_password_result
+
+- name: Debug admin password set result
+  ansible.builtin.debug:
+    var: admin_password_result
+
+- name: Save configuration
+  community.routeros.command:
+    commands:
+      - /system script run save_config
+  register: save_config_result
+
+- name: Debug save configuration result
+  ansible.builtin.debug:
+    var: save_config_result

@@ -1,0 +1,10 @@
+---
+- name: Set system identity
+  community.routeros.command:
+    commands:
+      - /system identity set name="{{ routerboard_hostname }}"
+  register: identity_result
+
+- name: Debug system identity result
+  ansible.builtin.debug:
+    var: identity_result

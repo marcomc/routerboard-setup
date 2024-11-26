@@ -3,10 +3,34 @@
   ansible.builtin.import_tasks: pre_checks.yml
   tags: pre_checks
 
-- name: Include network configuration
-  ansible.builtin.import_tasks: network.yml
-  tags: network
-
 - name: Include services configuration
   ansible.builtin.import_tasks: services.yml
   tags: services
+
+- name: Include identity configuration
+  ansible.builtin.import_tasks: identity.yml
+  tags: identity
+
+- name: Include bridge configuration
+  ansible.builtin.import_tasks: bridge.yml
+  tags:
+    - bridge
+    - network
+
+- name: Include IP configuration
+  ansible.builtin.import_tasks: ip_config.yml
+  tags:
+    - ip_config
+    - network
+
+- name: Include SSH key management
+  ansible.builtin.import_tasks: ssh_key.yml
+  tags:
+    - ssh_key
+    - authentication
+
+- name: Include user management
+  ansible.builtin.import_tasks: user_management.yml
+  tags:
+    - user_management
+    - authentication
