@@ -1,4 +1,4 @@
-# RouterBoard Ansible
+# RouterBoard Setup 
 
 ## Configure RouterBoard
 
@@ -12,8 +12,8 @@ Following the first boot, you can connect to the router via SSH using the privat
 
 ```bash
 # build the Docker container `console` with the Ansible dependencies and roles to run the playbook
+export ROUTERBOARD_ADMIN_PASSWORD=<routerboard_admin_password>
+
 ws enable
-
-
 ws ansible-playbook ansible/configure_switch.yml ansible/inventory/hosts
 ```
