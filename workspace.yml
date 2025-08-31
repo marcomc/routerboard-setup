@@ -1,4 +1,6 @@
 ---
+attribute('routerboard.static_ip'): "192.168.1.71"
+
 workspace('routerboard'):
   description: Workspace Environment for RouterBoard
 
@@ -10,7 +12,6 @@ command('enable %'):
     #!bash(workspace:/)
     passthru docker compose up -d ${PARAMETER}
     ws welcome
-
 
 command('rebuild %'):
   env:
@@ -46,6 +47,7 @@ command('ansible-playbook <playbook> <inventory>'):
     NAMESPACE: = @('namespace')
     PLAYBOOK: = input.argument('playbook')
     INVENTORY: = input.argument('inventory')
+    ROUTERBOARD_STATIC_IP: = @('routerboard.static_ip')
   exec: |
     #!bash(workspace:/)|@
     passthru docker compose exec -u ansible console ansible-playbook ${PLAYBOOK} -i ${INVENTORY}

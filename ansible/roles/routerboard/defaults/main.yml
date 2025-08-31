@@ -3,7 +3,7 @@
 routerboard_name: "routerboard"
 routerboard_domain: "local"
 routerboard_hostname: "{{ routerboard_name }}.{{ routerboard_domain }}"
-routerboard_ip: "192.168.88.1"
+routerboard_ip: lookup('env', 'ROUTERBOARD_STATIC_IP', default='192.168.88.1')
 routerboard_netmask: "24"
 routerboard_ssh_public_key_file: "/home/ansible/.ssh/id_rsa.pub"
 routerboard_admin_password: "{{ lookup('env', 'ROUTERBOARD_ADMIN_PASSWORD', default='changeme') }}"

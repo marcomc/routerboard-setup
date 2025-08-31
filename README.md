@@ -3,10 +3,13 @@
 ## Reset Instructions
 
 For detailed instructions on resetting your MikroTik RouterBoard, see [RESET.md](./RESET.md).
+After resetting, the router will be accessible at its default IP address: `192.168.88.1`.
 
 ## Configure RouterBoard
 
-If the reouter has been reset, the default user is `admin` and the password is empty.
+After deployment, the router will be accessible at its default IP address: `192.168.1.71`.
+
+If the router has been reset, the default user is `admin` and the password is empty.
 
 The provisioning script will set the password to the value of the attribute `routerboard_admin_password` (by default it's `changeme`), and enable RSA public key authentication for the admin user.
 

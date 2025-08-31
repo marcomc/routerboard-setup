@@ -1,5 +1,5 @@
 ---
-- name: Assign default static IP to bridge
+- name: Assign default static IP to bridge {{ routerboard_ip }}
   community.routeros.command:
     commands:
       - /ip address add address={{ routerboard_ip }}/{{ routerboard_netmask }} interface={{ routerboard_bridge_interface_name }}
