@@ -1,5 +1,13 @@
 # MikroTik RouterBoard Reset Instructions
 
+## Quick Index
+
+- [Standard Reset Procedure](#standard-reset-procedure)
+- [Netinstall Reset Method](#netinstall-reset-method)
+- [Protected Mode Override](#protected-mode-override)
+- [Troubleshooting](#troubleshooting)
+- [Notes](#notes)
+
 ## Standard Reset Procedure
 
 1. **Power off** the router completely

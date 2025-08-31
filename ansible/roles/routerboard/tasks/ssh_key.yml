@@ -14,7 +14,7 @@
 - name: Import public SSH key for admin user
   community.routeros.command:
     commands:
-      - /user ssh-keys import user=admin public-key-file=/id_rsa.pub
+      - /user ssh-keys import user=admin public-key-file=id_rsa.pub
   register: ssh_key_import_result
 
 - name: Debug SSH key import result

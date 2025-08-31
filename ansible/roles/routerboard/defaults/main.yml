@@ -8,3 +8,4 @@ routerboard_netmask: "24"
 routerboard_ssh_public_key_file: "/home/ansible/.ssh/id_rsa.pub"
 routerboard_admin_password: "{{ lookup('env', 'ROUTERBOARD_ADMIN_PASSWORD', default='changeme') }}"
 routerboard_bridge_interface_name: "bridgeLocal"
+routerboard_switch_ports: [1, 2, 3, 4, 5]

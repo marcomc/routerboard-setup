@@ -1,5 +1,9 @@
 # RouterBoard Setup 
 
+## Reset Instructions
+
+For detailed instructions on resetting your MikroTik RouterBoard, see [RESET.md](./RESET.md).
+
 ## Configure RouterBoard
 
 If the reouter has been reset, the default user is `admin` and the password is empty.

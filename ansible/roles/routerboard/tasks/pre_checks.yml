@@ -34,11 +34,13 @@
     port: 22
     timeout: 300
   delegate_to: localhost
+
 - name: Check configuration mode
   community.routeros.command:
     commands:
       - /system routerboard print
   register: config_mode_check
+
 
 - name: Display configuration mode
   ansible.builtin.debug:

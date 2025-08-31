@@ -13,14 +13,9 @@
   community.routeros.command:
     commands:
       - /interface bridge port add bridge={{ routerboard_bridge_interface_name }} interface=ether{{ item }}
-  loop:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-  register: bridge_ports_result
+  loop: "{{ routerboard_switch_ports }}"
+  register: routerboard_bridge_ports_result
 
 - name: Debug bridge ports addition result
   ansible.builtin.debug:
-    var: bridge_ports_result
+    var: routerboard_bridge_ports_result
